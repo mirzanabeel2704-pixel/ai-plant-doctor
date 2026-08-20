@@ -5,6 +5,7 @@ from google.genai import types
 from PIL import Image
 from dotenv import load_dotenv
 import io
+import datetime
 from reportlab.lib.pagesizes import letter
 from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer
 from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
@@ -42,7 +43,21 @@ st.sidebar.info(
     "• Beemari ya paton ka close-up shot behtareen result deta hai."
 )
 
-# Sidebar History Section
+# Feature 3: Plant Care Reminders / Watering Schedule Calculator in Sidebar
+st.sidebar.markdown("---")
+st.sidebar.subheader("💧 Care & Watering Calculator")
+plant_type_input = st.sidebar.text_input("Plant Name for Reminder", "e.g. Money Plant / Rose")
+environment_type = st.sidebar.selectbox("Environment", ["Indoor (AC/Room)", "Outdoor (Sunny)", "Balcony (Indirect Light)"])
+
+if st.sidebar.button("Generate Watering Schedule"):
+    if environment_type == "Indoor (AC/Room)":
+        st.sidebar.success(f"📌 **{plant_type_input}**: Pani har 7-10 din baad dein jab mitti oopar se khushk ho.")
+    elif environment_type == "Outdoor (Sunny)":
+        st.sidebar.success(f"📌 **{plant_type_input}**: Pani rozana ya har 2 din baad dein (dhoop ki waja se).")
+    else:
+        st.sidebar.success(f"📌 **{plant_type_input}**: Pani har 4-5 din baad dein.")
+
+# Feature 1: Sidebar History Section
 st.sidebar.markdown("---")
 st.sidebar.subheader("📜 Past Diagnoses")
 if st.session_state.history:
@@ -57,13 +72,12 @@ st.markdown("<h1 style='text-align: center;'>🌿 AI Plant Doctor & Identifier P
 st.markdown("<p style='text-align: center; color: gray;'>Advanced Botanical Intelligence for Plant Health & Disease Diagnosis</p>", unsafe_allow_html=True)
 st.markdown("---")
 
-# Function to generate PDF Report
+# Feature 2: Function to generate PDF Report
 def generate_pdf(report_text, plant_name):
     buffer = io.BytesIO()
     doc = SimpleDocTemplate(buffer, pagesize=letter, rightMargin=36, leftMargin=36, topMargin=36, bottomMargin=36)
     styles = getSampleStyleSheet()
     
-    # Custom Styles
     title_style = ParagraphStyle(
         'TitleStyle',
         parent=styles['Heading1'],
@@ -83,7 +97,6 @@ def generate_pdf(report_text, plant_name):
     story.append(Paragraph(f"<b>Botanical Medical Report: {plant_name}</b>", title_style))
     story.append(Spacer(1, 10))
     
-    # Clean text and format for PDF
     for line in report_text.split('\n'):
         if line.strip():
             story.append(Paragraph(line, body_style))
@@ -129,7 +142,7 @@ with col2:
                         """
                         
                         response = client.models.generate_content(
-                            model='gemini-2.5-flash',
+                            model='gemini-3.6-flash',
                             contents=[image, prompt]
                         )
                         
@@ -138,7 +151,6 @@ with col2:
                         st.markdown(report_output)
                         
                         # Save to history session state
-                        import datetime
                         current_time = datetime.datetime.now().strftime("%H:%M")
                         st.session_state.history.append({
                             "plant": "Plant Scan",
@@ -161,7 +173,7 @@ with col2:
     else:
         st.info("👈 Tasveer upload karein aur **Analyze Plant Health** dabayein.")
         
-        # Check if user clicked a history item
+        # Display selected history item if clicked
         if "selected_history" in st.session_state:
             st.markdown("### 📜 Selected Past Report")
             st.markdown(st.session_state.selected_history["report"])
