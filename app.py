@@ -39,8 +39,8 @@ language_choice = st.sidebar.selectbox(
 st.sidebar.markdown("---")
 st.sidebar.subheader("🌱 Pro Tips")
 st.sidebar.info(
-    "• Saaf aur achi roshni mein li gayi tasveer upload karein. "
-    "• Beemari ya paton ka close-up shot behtareen result deta hai."
+    "• **English:** Upload a clear, well-lit photo for best results.\n\n"
+    "• **اردو:** اچھے نتائج کے لیے پتے کی صاف اور واضح تصویر اپ لوڈ کریں۔"
 )
 
 # Feature 3: Plant Care Reminders / Watering Schedule Calculator in Sidebar
