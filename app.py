@@ -190,7 +190,7 @@ with col2:
                     except Exception as e:
                         st.error(f"An error occurred: {e}")
     else:
-        st.info("👈 Tasveer upload karein aur **Analyze Plant Health** dabayein.")
+        st.info("👈 Please upload an image and click **Analyze Plant Health** to view the report.")
         
         # Display selected history item if clicked
         if "selected_history" in st.session_state:
