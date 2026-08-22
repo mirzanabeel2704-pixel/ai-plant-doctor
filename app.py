@@ -40,7 +40,7 @@ st.sidebar.markdown("---")
 st.sidebar.subheader("🌱 Pro Tips")
 st.sidebar.info(
     "• **:** Upload a clear, well-lit photo for best results.\n\n"
-    " اچھے نتائج کے لیے پتے کی صاف اور واضح تصویر اپ لوڈ کریں۔""• **:**
+   ""• **:**اچھے نتائج کے لیے پتے کی صاف اور واضح تصویر اپ لوڈ کریں۔""• **:** "
 )
 
 # Feature 3: Plant Care Reminders / Watering Schedule Calculator in Sidebar
