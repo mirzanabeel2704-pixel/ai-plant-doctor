@@ -84,7 +84,7 @@ if st.session_state.history:
         if st.sidebar.button(f"{item['plant']} ({item['time']})", key=f"hist_{idx}"):
             st.session_state.selected_history = item
 else:
-st.sidebar.caption("No history yet.")
+   st.sidebar.caption("No history yet.")
 
 # Main Application Header
 st.markdown("<h1 style='text-align: center; color: #2e7d32;'>🌿 AI Plant Doctor & Identifier Pro</h1>", unsafe_allow_html=True)
