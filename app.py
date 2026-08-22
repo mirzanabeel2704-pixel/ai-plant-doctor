@@ -19,6 +19,25 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
+# Custom CSS for Modern UI/UX
+st.markdown("""
+    <style>
+    .main {
+        background-color: #f8f9fa;
+    }
+    .stButton>button {
+        border-radius: 8px;
+        font-weight: 600;
+    }
+    .stDownloadButton>button {
+        border-radius: 8px;
+        font-weight: 600;
+        background-color: #2e7d32;
+        color: white;
+    }
+    </style>
+""", unsafe_allow_html=True)
+
 # 2. Initialize Session State for History
 if "history" not in st.session_state:
     st.session_state.history = []
@@ -28,7 +47,7 @@ load_dotenv()
 GEMINI_API_KEY = st.secrets.get("GEMINI_API_KEY") or os.getenv("GEMINI_API_KEY")
 
 # 3. Sidebar Configuration
-st.sidebar.image("https://img.icons8.com/color/96/potted-plant.png", width=80)
+st.sidebar.image("https://img.icons8.com/color/96/potted-plant.png", width=70)
 st.sidebar.title("Control Panel")
 
 language_choice = st.sidebar.selectbox(
@@ -45,17 +64,17 @@ st.sidebar.info(
 
 # Feature 3: Plant Care Reminders / Watering Schedule Calculator in Sidebar
 st.sidebar.markdown("---")
-st.sidebar.subheader("💧 Care & Watering Calculator")
-plant_type_input = st.sidebar.text_input("Plant Name for Reminder", "e.g. Money Plant / Rose")
+st.sidebar.subheader("💧 Watering Calculator")
+plant_type_input = st.sidebar.text_input("Plant Name", "e.g. Money Plant / Rose")
 environment_type = st.sidebar.selectbox("Environment", ["Indoor (AC/Room)", "Outdoor (Sunny)", "Balcony (Indirect Light)"])
 
-if st.sidebar.button("Generate Watering Schedule"):
+if st.sidebar.button("Get Schedule"):
     if environment_type == "Indoor (AC/Room)":
-        st.sidebar.success(f"📌 **{plant_type_input}**: Pani har 7-10 din baad dein jab mitti oopar se khushk ho.")
+        st.sidebar.success(f"📌 **{plant_type_input}**: Water every 7-10 days when topsoil is dry.")
     elif environment_type == "Outdoor (Sunny)":
-        st.sidebar.success(f"📌 **{plant_type_input}**: Pani rozana ya har 2 din baad dein (dhoop ki waja se).")
+        st.sidebar.success(f"📌 **{plant_type_input}**: Water daily or every 2 days due to sun exposure.")
     else:
-        st.sidebar.success(f"📌 **{plant_type_input}**: Pani har 4-5 din baad dein.")
+        st.sidebar.success(f"📌 **{plant_type_input}**: Water every 4-5 days.")
 
 # Feature 1: Sidebar History Section
 st.sidebar.markdown("---")
@@ -65,12 +84,12 @@ if st.session_state.history:
         if st.sidebar.button(f"{item['plant']} ({item['time']})", key=f"hist_{idx}"):
             st.session_state.selected_history = item
 else:
-    st.sidebar.text("No history yet.")
+st.sidebar.caption("No history yet.")
 
 # Main Application Header
-st.markdown("<h1 style='text-align: center;'>🌿 AI Plant Doctor & Identifier Pro</h1>", unsafe_allow_html=True)
-st.markdown("<p style='text-align: center; color: gray;'>Advanced Botanical Intelligence for Plant Health & Disease Diagnosis</p>", unsafe_allow_html=True)
-st.markdown("---")
+st.markdown("<h1 style='text-align: center; color: #2e7d32;'>🌿 AI Plant Doctor & Identifier Pro</h1>", unsafe_allow_html=True)
+st.markdown("<p style='text-align: center; color: #6c757d;'>Advanced Botanical Intelligence for Plant Health & Disease Diagnosis</p>", unsafe_allow_html=True)
+st.markdown("<hr style='margin-top: 0px;'>", unsafe_allow_html=True)
 
 # Feature 2: Function to generate PDF Report
 def generate_pdf(report_text, plant_name):
@@ -135,7 +154,7 @@ with col2:
                         2. Health Status (Healthy or Diseased)
                         3. Disease/Issue Identification (if any)
                         4. Detailed Causes
-                        5. Step-by-Step Cure & Treatment Plan
+                        5. Step-by-Step Cure & Treatment Plan with specific medicine/fungicide recommendations if needed
                         6. Preventive Care Guidelines & Watering Schedule
                         
                         Response Language Requirement: {language_choice}
